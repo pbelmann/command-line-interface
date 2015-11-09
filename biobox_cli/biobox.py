@@ -2,7 +2,6 @@ from abc import ABCMeta, abstractmethod
 import biobox_cli.container   as ctn
 import biobox_cli.util.misc   as util
 import biobox_cli.util.error  as error
-import tempfile as tmp
 import inspect
 import os
 
@@ -13,10 +12,6 @@ class Biobox:
     def prepare_volumes(opts):
         pass
 
-    @abstractmethod
-    def after_run(self, host_dst_dir):
-        pass
-
     def run(self, argv):
         doc = inspect.getdoc(inspect.getmodule(self))
         opts = util.parse_docopt(doc, argv, False)
@@ -25,12 +20,10 @@ class Biobox:
         output      = opts['--output']
         if os.listdir(output):
             error.err_exit("non_empty_output_dir", { "dir": output})
-        host_dst_dir = tmp.mkdtemp()
-        volumes = self.prepare_volumes(opts, host_dst_dir)
+        volumes = self.prepare_volumes(opts, output)
         ctn.exit_if_no_image_available(image)
         ctnr = ctn.create(image, task, volumes)
         ctn.run(ctnr)
-        self.after_run(output, host_dst_dir)
         return ctnr
 
     def remove(self, container):

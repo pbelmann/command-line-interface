@@ -48,6 +48,7 @@ Feature: A CLI to run biobox-compatible Docker containers
     Given I copy the example data files:
       | source                    | dest        |
       | genome_paired_reads.fq.gz | reads.fq.gz |
+    And I create the directory "output"
     When I run the command:
       """
       biobox \
@@ -62,14 +63,12 @@ Feature: A CLI to run biobox-compatible Docker containers
     Then the stdout should be empty
     And the stderr should be empty
     And the exit code should be 0
-    And the file "contigs.fa" should exist
-    And the file "contigs.fa" should not be empty
 
     Examples:
-      | assembler        | args            | input                   | output                   |
-      | bioboxes/velvet  |                 | reads.fq.gz             | contigs.fa               |
-      | bioboxes/velvet  |                 | $(realpath reads.fq.gz) | contigs.fa               |
-      | bioboxes/velvet  |                 | reads.fq.gz             | $(realpath .)/contigs.fa |
+      | assembler        | args            | input                   | output        |
+      | bioboxes/velvet  |                 | reads.fq.gz             | $(realpath .)/output |
+      | bioboxes/velvet  |                 | $(realpath reads.fq.gz) | $(realpath .)/output |
+      | bioboxes/velvet  |                 | reads.fq.gz             | $(realpath .)/output |
 
   Scenario Outline: Running a biobox assembler benchmark container
     Given I create the directory "input"

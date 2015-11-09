@@ -20,11 +20,6 @@ from biobox_cli.biobox import Biobox
 
 class Assembler_Benchmark(Biobox):
 
-    def copy_result_files(self, biobox_output_dir, dst):
-        import shutil
-        output_files = os.listdir(biobox_output_dir)
-        map(lambda f: shutil.move(os.path.join(biobox_output_dir,f), dst), output_files)
-
     def prepare_volumes(self, opts, host_dst_dir):
         fasta_file = opts['--input-fasta']
         ref_dir = opts['--input-ref']
@@ -47,6 +42,3 @@ class Assembler_Benchmark(Biobox):
                 ctn.biobox_file_volume_string(fle.create_biobox_directory(biobox_yaml)),
                 ctn.output_directory_volume_string(host_dst_dir)]
         return volume_strings
-
-    def after_run(self, output, host_dst_dir):
-        self.copy_result_files(host_dst_dir, output)

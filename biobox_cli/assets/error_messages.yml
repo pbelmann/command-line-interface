@@ -9,7 +9,6 @@ unknown_command: |
 
 non_empty_output_dir: |
   Specified output directory "{dir}" is not empty.
-  Remove its content.
 
 failed_verification: |
   Error "{image}" is not a valid {biobox} biobox.
