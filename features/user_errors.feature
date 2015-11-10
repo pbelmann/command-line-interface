@@ -63,7 +63,7 @@ Feature: Providing useful errors to a user when they run the tool incorrectly
       | verify  | short_read_assembler |                                            |
 
   Scenario Outline: Trying to mount a non empty output directory.
-    And I create the directory "output"
+    Given I create the directory "output"
     And I copy the example data files:
       | source         | dest                 |
       | assembly.fasta | output/assembly.fasta |
