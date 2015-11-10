@@ -42,11 +42,11 @@ Feature: Providing useful errors to a user when they run the tool incorrectly
 
   @internet
   Scenario Outline: Trying to use an unknown biobox image
+    Given I create the directory "output"
     When I run the command:
       """
       biobox <command> <type> bioboxes/unknown <args>
       """
-    And I create the directory "output"
     Then the stdout should be empty
     And the stderr should equal:
       """
@@ -58,7 +58,7 @@ Feature: Providing useful errors to a user when they run the tool incorrectly
 
     Examples:
       | command | type                 | args                                       |
-      | run     | short_read_assembler | --input=reads.fq.gz --output $(realpath .)/output |
+      | run     | short_read_assembler | --input=reads.fq.gz --output=$(realpath .)/output |
       | login   | short_read_assembler |                                            |
       | verify  | short_read_assembler |                                            |
 
