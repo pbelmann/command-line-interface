@@ -80,4 +80,4 @@ Feature: Providing useful errors to a user when they run the tool incorrectly
 
     Examples:
      | output             |
-     | $(realpath)/output |
+     | $(realpath .)/output |
